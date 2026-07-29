@@ -1,0 +1,140 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-zinc-950 text-zinc-100 font-sans overflow-x-hidden selection:bg-indigo-500/30 selection:text-indigo-200 transition-colors duration-300;
+  }
+
+  body.light {
+    @apply bg-zinc-50 text-zinc-900 selection:bg-indigo-500/20 selection:text-indigo-900;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-zinc-800 rounded-full border-2 border-zinc-950 hover:bg-zinc-700 transition-colors;
+  }
+
+  .light ::-webkit-scrollbar-thumb {
+    @apply bg-zinc-300 border-zinc-50 hover:bg-zinc-400;
+  }
+}
+
+@layer utilities {
+  /* Glassmorphism */
+  .glass-panel {
+    @apply bg-zinc-900/60 backdrop-blur-md border border-zinc-800/50 shadow-2xl;
+  }
+  
+  .light .glass-panel {
+    @apply bg-white/70 backdrop-blur-md border border-zinc-200/50 shadow-xl;
+  }
+
+  /* Text gradient */
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-white via-zinc-200 to-zinc-400;
+  }
+  
+  .light .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-zinc-950 via-zinc-700 to-zinc-500;
+  }
+
+  .text-gradient-purple {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400;
+  }
+  
+  .light .text-gradient-purple {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-600;
+  }
+
+  /* Glow Card Effect */
+  .glow-card {
+    position: relative;
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+
+  .glow-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 1rem;
+    padding: 1px;
+    background: linear-gradient(to bottom right, rgba(99, 102, 241, 0.15), rgba(168, 85, 247, 0.05), transparent);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    transition: all 0.5s ease;
+  }
+
+  .glow-card:hover::before {
+    background: linear-gradient(to bottom right, rgba(99, 102, 241, 0.4), rgba(168, 85, 247, 0.3), rgba(16, 185, 129, 0.1));
+  }
+
+  .light .glow-card::before {
+    background: linear-gradient(to bottom right, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.05), transparent);
+  }
+
+  .light .glow-card:hover::before {
+    background: linear-gradient(to bottom right, rgba(99, 102, 241, 0.25), rgba(168, 85, 247, 0.2), rgba(16, 185, 129, 0.15));
+  }
+}
+
+/* Custom styles for grid pattern background */
+.grid-overlay {
+  background-size: 40px 40px;
+  background-image: linear-gradient(to right, rgba(128, 128, 128, 0.05) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(128, 128, 128, 0.05) 1px, transparent 1px);
+}
+
+.light .grid-overlay {
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+}
+
+/* Custom typing cursor */
+.typing-cursor::after {
+  content: '|';
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  from, to { color: transparent }
+  50% { @apply text-indigo-500; }
+}
+
+/* Logo path stroke animation */
+@keyframes path-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: path-draw 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Hide cursor class for interactive body elements when custom cursor is enabled */
+@media (pointer: fine) {
+  body.custom-cursor-enabled, 
+  body.custom-cursor-enabled * {
+    cursor: none !important;
+  }
+}

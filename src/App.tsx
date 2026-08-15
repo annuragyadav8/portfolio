@@ -9,7 +9,7 @@ import Skills from './pages/Skills';
 import Experience from './pages/Experience';
 import Projects from './pages/Projects';
 import GithubStats from './pages/GithubStats';
-import Certifications from './pages/Certifications';
+import Education from './pages/Education';
 import Contact from './pages/Contact';
 import Footer from './components/Footer';
 
@@ -76,7 +76,7 @@ export default function App() {
         <Experience />
         <Projects />
         <GithubStats />
-        <Certifications />
+        <Education />
         <Contact />
       </main>
 

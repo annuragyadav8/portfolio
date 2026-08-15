@@ -1,7 +1,7 @@
 export interface Project {
   id: string;
   title: string;
-  category: 'Full Stack' | 'Backend' | 'Frontend';
+  category: 'Full Stack' | 'Backend' | 'Frontend' | 'Software Tool';
   description: string;
   image: string;
   techStack: string[];
@@ -26,12 +26,12 @@ export interface Skill {
   proficiency: number; // 0 to 100
 }
 
-export interface Certification {
-  name: string;
-  issuer: string;
-  date: string;
-  credentialId?: string;
-  link?: string;
+export interface Education {
+  degree: string;
+  university: string;
+  duration: string;
+  score: string;
+  coursework: string[];
 }
 
 export const personalInfo = {
@@ -40,9 +40,9 @@ export const personalInfo = {
   subtitle: "Full Stack .NET Developer",
   shortIntro: "I design and build high-performance, scalable web applications. Specializing in secure .NET Core backends, modern React frontends, and optimized database solutions.",
   email: "annuragyadav8@gmail.com",
-  phone: "+91 8169268178",
-  location: "Thane, Maharashtra, India",
-  github: "https://github.com",
+  phone: "+91-8169268178",
+  location: "Mumbai, Maharashtra, India",
+  github: "https://github.com/annuragyadav8",
   linkedin: "https://linkedin.com",
 };
 
@@ -50,131 +50,104 @@ export const skillsData: Skill[] = [
   // Backend
   { name: "C#", category: "Backend", proficiency: 92 },
   { name: "ASP.NET Core", category: "Backend", proficiency: 90 },
-  { name: ".NET Web API", category: "Backend", proficiency: 90 },
-  { name: "Entity Framework Core", category: "Backend", proficiency: 88 },
+  { name: "ASP.NET MVC", category: "Backend", proficiency: 88 },
+  { name: "ASP.NET Web API", category: "Backend", proficiency: 90 },
   { name: "REST APIs", category: "Backend", proficiency: 92 },
   { name: "OOP", category: "Backend", proficiency: 95 },
   
   // Frontend
   { name: "React", category: "Frontend", proficiency: 85 },
-  { name: "TypeScript", category: "Frontend", proficiency: 80 },
   { name: "JavaScript", category: "Frontend", proficiency: 88 },
-  { name: "Tailwind CSS", category: "Frontend", proficiency: 90 },
+  { name: "TypeScript", category: "Frontend", proficiency: 80 },
   { name: "HTML5 & CSS3", category: "Frontend", proficiency: 95 },
   
   // Database
-  { name: "SQL Server", category: "Database", proficiency: 87 },
-  { name: "T-SQL / Queries", category: "Database", proficiency: 85 },
-  { name: "Redis Cache", category: "Database", proficiency: 75 },
+  { name: "SQL Server", category: "Database", proficiency: 90 },
+  { name: "Stored Procedures", category: "Database", proficiency: 88 },
+  { name: "T-SQL / Queries", category: "Database", proficiency: 87 },
   
   // Tools & Practices
   { name: "Git & GitHub", category: "Tools & Practices", proficiency: 90 },
   { name: "SOLID Principles", category: "Tools & Practices", proficiency: 92 },
-  { name: "Clean Architecture", category: "Tools & Practices", proficiency: 88 },
-  { name: "Docker", category: "Tools & Practices", proficiency: 78 },
-  { name: "CI/CD Pipelines", category: "Tools & Practices", proficiency: 75 }
+  { name: "Clean Architecture", category: "Tools & Practices", proficiency: 88 }
 ];
 
 export const experiencesData: Experience[] = [
   {
-    company: "Cognizant Technology Solutions",
-    role: "Software Engineer (.NET Full Stack Developer)",
-    duration: "Dec 2024 - Present",
+    company: "Shyft X",
+    role: "Software Engineer",
+    duration: "May 2025 - Present",
     achievements: [
-      "Designed and developed highly scalable microservices using ASP.NET Core Web API, improving transaction speed and API response times by 25%.",
-      "Successfully migrated a legacy ASP.NET Web Forms ERP portal to a modern decoupled stack using React, TypeScript, and .NET 8 Web APIs.",
-      "Optimized query efficiency and indexing structures in SQL Server, reducing reporting data retrieval latency by 30%.",
-      "Championed the adoption of clean architecture, dependency injection, and SOLID design patterns across the core product, lowering code duplication and post-release bugs by 18%."
+      "Developed and integrated custom PowerPoint controls using Office Add-ins, enabling users to perform time-consuming operations (e.g., inserting templates, slides, or content blocks) with a single click, saving several minutes per task.",
+      "Automated standard slide templates injections and corporate branding application to enforce design consistency across presentations.",
+      "Engineered automated one-click chart and diagram generation systems based on predefined layouts and user datasets.",
+      "Programmed robust validation features to verify presentation structure and verify the presence of required slides and templates.",
+      "Implemented consistent style-matching algorithms to apply typography, colors, and layout formats across multi-slide decks dynamically."
     ],
-    techUsed: ["C#", "ASP.NET Core", "React", "TypeScript", "SQL Server", "EF Core", "Tailwind CSS"]
-  },
-  {
-    company: "AcroTrend Solutions",
-    role: "Associate Software Engineer",
-    duration: "Feb 2024 - Dec 2024",
-    achievements: [
-      "Built and integrated secure RESTful APIs with various third-party services including payment getaways and customer management dashboards.",
-      "Engineered responsive user dashboards and interactive data visualizations in React, improving client analytics access speeds.",
-      "Partnered with QA teams to write unit tests using xUnit and integration tests, boosting code coverage from 60% to 85%."
-    ],
-    techUsed: ["C#", ".NET Core API", "React", "JavaScript", "SQL Server", "Git", "CSS3"]
+    techUsed: ["Office Add-ins", "Office.js", "C#", "JavaScript", "TypeScript", "HTML5", "CSS3"]
   }
 ];
 
 export const projectsData: Project[] = [
   {
-    id: "mediconnect",
-    title: "MediConnect - Enterprise Healthcare Portal",
+    id: "tailorpro",
+    title: "Tailoring Management System (TailorPro)",
     category: "Full Stack",
-    description: "An end-to-end medical scheduling and record management system enabling doctors and patients to securely schedule appointments, review logs, and manage prescriptions.",
-    image: "mediconnect",
-    techStack: ["ASP.NET Core Web API", "React", "SQL Server", "Entity Framework Core", "SignalR", "Tailwind CSS"],
+    description: "A web-based system that simplifies daily operations for tailors, allowing shop owners to efficiently manage customer profiles, track orders, and handle billing.",
+    image: "mediconnect", // placeholder mapping for compatibility
+    techStack: ["C#", "ASP.NET Core", "SQL Server", "Entity Framework Core", "HTML5", "CSS3", "JavaScript"],
     features: [
-      "Secure authentication utilizing JSON Web Tokens (JWT) and claims-based role authorization.",
-      "Real-time patient check-in alerts and doctor availability calendars synchronized via SignalR.",
-      "HIPAA-compliant structured database structure with encryption on sensitive medical documents."
+      "Consolidates customer information, employee details, and order tracking into a single unified dashboard.",
+      "Track order status in real-time from receipt to stitching and delivery.",
+      "Built-in billing system to generate invoices, log payments, and print structured receipts."
     ],
-    challenge: "High concurrency and race conditions when multiple patients tried to book the same doctor's appointment slot simultaneously.",
-    solution: "Implemented EF Core Optimistic Concurrency tokens, coupled with a Redis-based reservation lease. When a slot is clicked, it is booked as 'Pending' in Redis for 5 minutes, allowing checkout to proceed smoothly without database contention.",
-    github: "https://github.com",
-    demo: "https://github.com"
+    challenge: "Managing dynamic measurements and order customization options for varying client requirements without bloating the database schema.",
+    solution: "Implemented a semi-structured JSON column structure in SQL Server to store individual client customization options dynamically, coupled with an EF Core repository wrapper to query them efficiently.",
+    github: "https://github.com/annuragyadav8/TailorPro",
+    demo: "https://github.com/annuragyadav8/TailorPro"
   },
   {
-    id: "finflow",
-    title: "FinFlow - Microservices Budgeting Platform",
+    id: "employeedashboard",
+    title: "Employee Management System",
     category: "Backend",
-    description: "An event-driven financial management tool aggregating multi-account expenses, tracking budgets, and generating predictive metrics using background services.",
+    description: "An enterprise-grade employee dashboard implementing MVC architecture to manage staff profiles, SQL Server schemas, and secure database operations.",
     image: "finflow",
-    techStack: [".NET 8 Core API", "RabbitMQ", "SQL Server", "React", "Docker", "Chart.js", "Tailwind CSS"],
+    techStack: ["C#", "ASP.NET Core MVC", "SQL Server", "Stored Procedures", "SOLID Principles", "OOP"],
     features: [
-      "Distributed architecture utilizing independent microservices with event orchestration.",
-      "Asynchronous message delivery and queue processing backed by RabbitMQ.",
-      "Full analytics page showcasing monthly transaction summaries via interactive charts."
+      "Implements strict Model-View-Controller (MVC) architecture to ensure scalability and ease of maintenance.",
+      "Encapsulates complex business rules using advanced Object-Oriented Programming (OOP) principles.",
+      "Leverages SQL Server stored procedures and query indexing for highly efficient and secure CRUD operations."
     ],
-    challenge: "Ensuring database consistency and transactional integrity across distinct accounts and ledger microservices without locking resources indefinitely.",
-    solution: "Deployed the Saga Pattern using MassTransit. When a transaction starts, it triggers sequential state validations. If any service fails, MassTransit executes automatic compensating actions to revert previous commits and keep databases in a consistent state.",
-    github: "https://github.com",
-    demo: "https://github.com"
+    challenge: "Slow execution times and resource lockouts when running heavy quarterly reports across thousands of employee records.",
+    solution: "Designed optimized SQL Stored Procedures utilizing custom indexes, CTEs, and query hint settings to reduce database server CPU load by 35%.",
+    github: "https://github.com/annuragyadav8/EmployeeManagementSystem",
+    demo: "https://github.com/annuragyadav8/EmployeeManagementSystem"
   },
   {
-    id: "devsync",
-    title: "DevSync - Collaborative Scrum Board",
-    category: "Full Stack",
-    description: "A developer-first real-time workspace featuring project boards, sprint planners, burndown analytics, and live team code sharing inspired by modern workflow tools.",
+    id: "officeaddin",
+    title: "Office PowerPoint Automation Add-in",
+    category: "Software Tool",
+    description: "A custom PowerPoint Add-in automating corporate branding, template injections, and chart generation workflows.",
     image: "devsync",
-    techStack: ["ASP.NET Core API", "C#", "React", "TypeScript", "SQL Server", "SignalR", "Framer Motion", "Tailwind CSS"],
+    techStack: ["Office Add-ins", "Office.js", "C#", "JavaScript", "TypeScript", "HTML5", "CSS3"],
     features: [
-      "Intuitive drag-and-drop task boards instantly synced for all members using WebSockets.",
-      "Custom markdown editor with instant formatting and code compilation outputs.",
-      "Beautiful Linear-inspired dark mode UI with interactive stats and indicators."
+      "One-click automated chart or diagram generation based on custom datasets.",
+      "Automatic injection of standard corporate slide templates and brand styling rules.",
+      "Built-in presentation structure checker to validate slides against corporate compliance guidelines."
     ],
-    challenge: "Sync issues and connection dropouts causing data state mismatch when users worked on erratic mobile networks.",
-    solution: "Designed an optimistic updates interface on the React client side and integrated an offline synchronization queue using IndexedDB. Operations are queued locally and automatically retried when SignalR detects a successful reconnection.",
-    github: "https://github.com",
-    demo: "https://github.com"
+    challenge: "Ensuring smooth PowerPoint rendering and slide generation without locking the main thread or causing application freezes.",
+    solution: "Implemented asynchronous Office JavaScript API calls combined with Web Workers to handle heavy JSON slide parsing tasks in the background.",
+    github: "https://github.com/annuragyadav8",
+    demo: "https://github.com/annuragyadav8"
   }
 ];
 
-export const certificationsData: Certification[] = [
+export const educationData: Education[] = [
   {
-    name: "Microsoft Certified: Azure Developer Associate (AZ-204)",
-    issuer: "Microsoft",
-    date: "Issued Jun 2025 · Expires Jun 2028",
-    credentialId: "AZ-204-ANURAG",
-    link: "https://microsoft.com"
-  },
-  {
-    name: "ASP.NET Core MVC & Web API Full Stack Bootcamp",
-    issuer: "Microsoft Tech Academy",
-    date: "Issued Aug 2024",
-    credentialId: "CERT-NET-FULLSTACK-992",
-    link: "https://udemy.com"
-  },
-  {
-    name: "React & TypeScript Enterprise Applications Guide",
-    issuer: "Academind Academic",
-    date: "Issued Apr 2024",
-    credentialId: "CERT-REACT-TS-8841",
-    link: "https://udemy.com"
+    degree: "Bachelor of Science in Information Technology (B.Sc IT)",
+    university: "Mumbai University",
+    duration: "June 2021 - March 2024",
+    score: "CGPA: 7/10",
+    coursework: ["C#", "Java", "ASP.NET", "SQL Server Database", "Object Oriented Programming", "Data Structures & Algorithms", "Computer Networks", "Operating Systems"]
   }
 ];

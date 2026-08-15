@@ -1,24 +1,30 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, ArrowRight, Shield, Layers, HelpCircle, Eye, Calendar, Sparkles, CheckSquare } from 'lucide-react';
+import { ExternalLink, ArrowRight, Shield, Layers, HelpCircle, Eye, Calendar } from 'lucide-react';
 import { projectsData } from '../data/portfolioData';
 import type { Project } from '../data/portfolioData';
 import Modal from '../components/ui/Modal';
 
-// --- Widget 1: MediConnect Interactive Scheduling ---
-function MediConnectWidget() {
-  const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
-  const [status, setStatus] = useState<string | null>("Ready to reserve slot");
+// --- Widget 1: TailorPro Interactive Order Tracker ---
+function TailorProWidget() {
+  const [activeStep, setActiveStep] = useState<'measure' | 'stitch' | 'deliver'>('measure');
+  const [log, setLog] = useState<string>("Measurements recorded in database");
 
-  const slots = ["09:00 AM", "11:30 AM", "03:00 PM"];
+  const steps = [
+    { id: 'measure' as const, label: 'Measurements' },
+    { id: 'stitch' as const, label: 'Stitching' },
+    { id: 'deliver' as const, label: 'Billed & Sent' }
+  ];
 
-  const handleSelectSlot = (slot: string) => {
-    setSelectedSlot(slot);
-    setStatus("Acquiring Redis lease lock...");
-    
-    setTimeout(() => {
-      setStatus(`Reserved: ${slot} (Lease active for 5 mins)`);
-    }, 800);
+  const handleStepClick = (stepId: 'measure' | 'stitch' | 'deliver') => {
+    setActiveStep(stepId);
+    if (stepId === 'measure') {
+      setLog("Measurements logged in SQL Server JSON column.");
+    } else if (stepId === 'stitch') {
+      setLog("Order status transitioned to Stitching queue.");
+    } else {
+      setLog("Invoice generated, customer notified via automated billing.");
+    }
   };
 
   return (
@@ -29,29 +35,29 @@ function MediConnectWidget() {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
           </span>
-          <span className="text-[10px] font-mono text-zinc-400 font-medium">Dr. Emily Chen (MD)</span>
+          <span className="text-[10px] font-mono text-zinc-400 font-medium">Order Tracker: #T-9928</span>
         </div>
         <span className="text-[9px] font-mono bg-indigo-500/10 text-indigo-400 px-2 py-0.5 rounded border border-indigo-500/20 font-medium">
-          REDIS LOCK
+          TAILORPRO ENGINE
         </span>
       </div>
 
       <div className="my-auto py-2">
         <div className="grid grid-cols-3 gap-2">
-          {slots.map((slot) => (
+          {steps.map((step) => (
             <button
-              key={slot}
+              key={step.id}
               onClick={(e) => {
                 e.stopPropagation();
-                handleSelectSlot(slot);
+                handleStepClick(step.id);
               }}
-              className={`px-2 py-2 rounded-lg text-[10px] font-mono border transition-all duration-300 cursor-pointer ${
-                selectedSlot === slot
+              className={`px-2 py-2 rounded-lg text-[9px] font-mono border transition-all duration-300 cursor-pointer ${
+                activeStep === step.id
                   ? 'bg-indigo-500 border-indigo-500 text-white shadow-lg shadow-indigo-500/20 scale-[0.98]'
                   : 'bg-zinc-900/40 border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700'
               }`}
             >
-              {slot}
+              {step.label}
             </button>
           ))}
         </div>
@@ -59,201 +65,132 @@ function MediConnectWidget() {
 
       <div className="bg-zinc-900/40 border border-zinc-800/60 p-2.5 rounded-lg text-center backdrop-blur-xs">
         <span className="text-[8px] font-mono text-indigo-400 font-semibold block uppercase tracking-wider mb-0.5">
-          Redis Mutex State
+          Real-Time Log
         </span>
-        <span className="text-[10px] font-mono text-zinc-350 font-medium">
-          {status}
+        <span className="text-[10px] font-mono text-zinc-350 font-medium block truncate">
+          {log}
         </span>
       </div>
     </div>
   );
 }
 
-// --- Widget 2: FinFlow Transaction Line Graph ---
-function FinFlowWidget() {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-
-  const points = [
-    { label: 'W1', value: 120, x: 20, y: 80 },
-    { label: 'W2', value: 180, x: 60, y: 60 },
-    { label: 'W3', value: 140, x: 100, y: 70 },
-    { label: 'W4', value: 290, x: 140, y: 30 },
-    { label: 'W5', value: 240, x: 180, y: 45 },
-    { label: 'W6', value: 380, x: 220, y: 15 }
-  ];
+// --- Widget 2: Employee Management Query Optimizer ---
+function EmployeeDashboardWidget() {
+  const [optimize, setOptimize] = useState<boolean>(false);
 
   return (
     <div className="w-full h-full flex flex-col justify-between">
       <div className="flex items-center justify-between border-b border-zinc-800/40 pb-2">
         <div>
-          <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-wider block">Total Balance</span>
-          <span className="text-sm font-bold text-white font-mono">$24,850.00</span>
+          <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-wider block">Quarterly Reports Query</span>
+          <span className="text-xs font-bold text-white font-mono">Database Index Profiler</span>
         </div>
-        <span className="text-[9px] font-mono bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/20 flex items-center gap-1 font-semibold">
-          <Sparkles size={8} className="animate-pulse" />
-          +12.4%
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            setOptimize(!optimize);
+          }}
+          className={`text-[9px] font-mono px-2 py-0.5 rounded border transition-colors cursor-pointer ${
+            optimize
+              ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+              : 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+          }`}
+        >
+          {optimize ? "Stored Proc Active" : "Raw Scan Active"}
+        </button>
+      </div>
+
+      <div className="my-auto py-2 flex flex-col gap-2.5">
+        {/* Row 1: Raw scan */}
+        <div className="space-y-1">
+          <div className="flex justify-between text-[8px] font-mono text-zinc-500">
+            <span>Raw Full Table Scan</span>
+            <span className="text-zinc-400 font-semibold">240ms</span>
+          </div>
+          <div className="w-full bg-zinc-900/60 h-2 rounded-full overflow-hidden">
+            <div className="bg-amber-500 h-full w-[90%] rounded-full" />
+          </div>
+        </div>
+
+        {/* Row 2: Optimized Stored Proc */}
+        <div className="space-y-1">
+          <div className="flex justify-between text-[8px] font-mono text-zinc-500">
+            <span>Stored Procedure + CTE Index</span>
+            <span className={optimize ? "text-emerald-400 font-semibold transition-colors" : "text-zinc-400 font-semibold"}>
+              {optimize ? "15ms" : "240ms"}
+            </span>
+          </div>
+          <div className="w-full bg-zinc-900/60 h-2 rounded-full overflow-hidden">
+            <motion.div
+              animate={{ width: optimize ? "8%" : "90%" }}
+              className="bg-indigo-500 h-full rounded-full"
+              transition={{ type: "spring", stiffness: 100, damping: 15 }}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="text-center">
+        <span className="text-[8px] font-mono text-zinc-550 block uppercase tracking-wider">
+          {optimize ? "// 35% DB CPU Load Saved Successfully" : "// Click top right button to run SQL Optimization"}
         </span>
       </div>
-
-      <div className="relative flex-1 flex items-center justify-center my-1">
-        <svg viewBox="0 0 240 100" className="w-full h-[65px] overflow-visible">
-          <defs>
-            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="3" result="blur" />
-              <feComposite in="SourceGraphic" in2="blur" operator="over" />
-            </filter>
-            <linearGradient id="line-grad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stopColor="#6366f1" />
-              <stop offset="50%" stopColor="#8b5cf6" />
-              <stop offset="100%" stopColor="#10b981" />
-            </linearGradient>
-            <linearGradient id="area-grad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.15" />
-              <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.0" />
-            </linearGradient>
-          </defs>
-
-          {/* Grid lines */}
-          <line x1="0" y1="20" x2="240" y2="20" stroke="rgba(255,255,255,0.02)" strokeWidth="0.5" />
-          <line x1="0" y1="50" x2="240" y2="50" stroke="rgba(255,255,255,0.02)" strokeWidth="0.5" />
-          <line x1="0" y1="80" x2="240" y2="80" stroke="rgba(255,255,255,0.02)" strokeWidth="0.5" />
-
-          {/* Area under curve */}
-          <path
-            d="M 20 100 L 20 80 L 60 60 L 100 70 L 140 30 L 180 45 L 220 15 L 220 100 Z"
-            fill="url(#area-grad)"
-          />
-
-          {/* Smooth line path */}
-          <path
-            d="M 20 80 L 60 60 L 100 70 L 140 30 L 180 45 L 220 15"
-            fill="none"
-            stroke="url(#line-grad)"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            filter="url(#glow)"
-          />
-
-          {/* Hover points */}
-          {points.map((p, idx) => (
-            <g key={p.label}>
-              <circle
-                cx={p.x}
-                cy={p.y}
-                r={hoveredIndex === idx ? "5" : "3.5"}
-                fill={hoveredIndex === idx ? "#10b981" : "#8b5cf6"}
-                stroke="#18181b"
-                strokeWidth="1.5"
-                className="cursor-pointer transition-all duration-150"
-                onMouseEnter={() => setHoveredIndex(idx)}
-                onMouseLeave={() => setHoveredIndex(null)}
-              />
-            </g>
-          ))}
-        </svg>
-
-        {/* Hover Point Value Overlay */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-          <AnimatePresence>
-            {hoveredIndex !== null && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8, y: 5 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.8, y: 5 }}
-                className="px-2 py-1 bg-zinc-900 border border-zinc-800 rounded-md shadow-lg text-[9px] font-mono text-zinc-300 flex gap-1 backdrop-blur-xs"
-              >
-                <span>{points[hoveredIndex].label}:</span>
-                <span className="font-semibold text-emerald-400">${points[hoveredIndex].value}</span>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </div>
-
-      <span className="text-[8px] font-mono text-zinc-550 text-center tracking-wide block uppercase">
-        // Hover nodes to trace weekly yields
-      </span>
     </div>
   );
 }
 
-// --- Widget 3: DevSync Sprint Board Columns ---
-function DevSyncWidget() {
-  const [column, setColumn] = useState<'todo' | 'done'>('todo');
+// --- Widget 3: Office PowerPoint Add-in Slide Deck ---
+function OfficeAddinWidget() {
+  const [template, setTemplate] = useState<'cover' | 'chart' | 'brand'>('cover');
 
   return (
     <div className="w-full h-full flex flex-col justify-between">
       <div className="flex items-center justify-between border-b border-zinc-800/40 pb-2">
         <div className="flex items-center gap-1.5">
-          <Calendar size={11} className="text-zinc-400" />
-          <span className="text-[10px] font-mono text-zinc-400 font-medium">Sprint Board Simulation</span>
+          <Calendar size={11} className="text-zinc-450" />
+          <span className="text-[10px] font-mono text-zinc-400 font-medium">PowerPoint Add-in Console</span>
         </div>
-        <span className="text-[8px] font-mono text-zinc-500 tracking-wider">REAL-TIME SYNC</span>
+        <span className="text-[8px] font-mono text-zinc-500 tracking-wider">OFFICE.JS API</span>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 my-auto py-2 flex-1">
-        {/* TO DO Column */}
-        <div className="bg-zinc-900/20 border border-dashed border-zinc-800/60 rounded-lg p-2 flex flex-col gap-1.5 min-h-[60px] justify-center">
-          <span className="text-[8px] font-mono text-zinc-500 uppercase tracking-wider block font-semibold mb-1">
-            To Do
-          </span>
-          {column === 'todo' && (
-            <motion.div
-              layoutId="kanban-task"
-              onClick={(e) => {
-                e.stopPropagation();
-                setColumn('done');
-              }}
-              className="p-1.5 bg-zinc-900/80 border border-zinc-800 rounded-md shadow-md flex items-start gap-1 cursor-pointer hover:border-indigo-500/50 group"
-              transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            >
-              <CheckSquare size={10} className="text-zinc-500 mt-0.5 group-hover:text-indigo-400 animate-pulse" />
-              <div className="leading-none">
-                <span className="text-[9px] font-medium text-zinc-300 block group-hover:text-white leading-tight">
-                  Integrate mass transit saga
-                </span>
-              </div>
-            </motion.div>
-          )}
-        </div>
-
-        {/* DONE Column */}
-        <div className="bg-zinc-900/20 border border-dashed border-zinc-800/60 rounded-lg p-2 flex flex-col gap-1.5 min-h-[60px] justify-center">
-          <span className="text-[8px] font-mono text-zinc-500 uppercase tracking-wider block font-semibold mb-1">
-            Done
-          </span>
-          {column === 'done' && (
-            <motion.div
-              layoutId="kanban-task"
-              onClick={(e) => {
-                e.stopPropagation();
-                setColumn('todo');
-              }}
-              className="p-1.5 bg-indigo-500/5 border border-indigo-500/30 rounded-md shadow-md flex items-start gap-1 cursor-pointer hover:border-indigo-500/50 group"
-              transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            >
-              <CheckSquare size={10} className="text-indigo-400 mt-0.5" />
-              <div className="leading-none">
-                <span className="text-[9px] font-medium text-indigo-300 block line-through leading-tight font-sans">
-                  Integrate mass transit saga
-                </span>
-              </div>
-            </motion.div>
-          )}
-        </div>
+      <div className="grid grid-cols-3 gap-2 my-auto py-2">
+        {(['cover', 'chart', 'brand'] as const).map((t) => (
+          <button
+            key={t}
+            onClick={(e) => {
+              e.stopPropagation();
+              setTemplate(t);
+            }}
+            className={`px-1 py-1.5 rounded-lg text-[9px] font-mono border transition-all duration-300 cursor-pointer ${
+              template === t
+                ? 'bg-indigo-500 border-indigo-500 text-white shadow-lg'
+                : 'bg-zinc-900/40 border-zinc-800 text-zinc-400 hover:text-white'
+            }`}
+          >
+            {t === 'cover' ? "Title Slide" : t === 'chart' ? "Insert Chart" : "Apply Brand"}
+          </button>
+        ))}
       </div>
 
-      <span className="text-[8px] font-mono text-zinc-550 text-center tracking-wide block uppercase">
-        // Click task card to shift columns
-      </span>
+      <div className="bg-zinc-900/40 border border-zinc-800/60 p-2.5 rounded-lg text-center backdrop-blur-xs font-mono text-[9px] text-zinc-400">
+        {template === 'cover' && (
+          <span>console: Injected Title Template (Corporate branding matching)</span>
+        )}
+        {template === 'chart' && (
+          <span className="text-emerald-400">console: Rendered PowerPoint Chart vector (0ms lock)</span>
+        )}
+        {template === 'brand' && (
+          <span className="text-indigo-400">console: Applied global presentation style theme guidelines</span>
+        )}
+      </div>
     </div>
   );
 }
 
 // --- Main Projects Component ---
 export default function Projects() {
-  const [filter, setFilter] = useState<'All' | 'Full Stack' | 'Backend'>('All');
+  const [filter, setFilter] = useState<'All' | 'Full Stack' | 'Backend' | 'Software Tool'>('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const filteredProjects = projectsData.filter((project) => {
@@ -262,9 +199,9 @@ export default function Projects() {
   });
 
   const renderProjectWidget = (id: string) => {
-    if (id === 'mediconnect') return <MediConnectWidget />;
-    if (id === 'finflow') return <FinFlowWidget />;
-    return <DevSyncWidget />;
+    if (id === 'tailorpro') return <TailorProWidget />;
+    if (id === 'employeedashboard') return <EmployeeDashboardWidget />;
+    return <OfficeAddinWidget />;
   };
 
   return (
@@ -298,13 +235,13 @@ export default function Projects() {
           transition={{ delay: 0.2 }}
           className="text-zinc-400 dark:text-zinc-400 light:text-zinc-600 text-sm sm:text-base max-w-xl font-sans"
         >
-          A selection of enterprise-grade applications highlighting clean code, architectural patterns, and performance tuning.
+          A selection of application ecosystem solutions built using scalable architectures, advanced SQL procedures, and custom frameworks.
         </motion.p>
       </div>
 
       {/* Category Filter Controls */}
       <div className="flex justify-center items-center gap-2 mb-12 sm:mb-16">
-        {(['All', 'Full Stack', 'Backend'] as const).map((cat) => (
+        {(['All', 'Full Stack', 'Backend', 'Software Tool'] as const).map((cat) => (
           <button
             key={cat}
             onClick={() => setFilter(cat)}

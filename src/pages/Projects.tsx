@@ -22,19 +22,21 @@ function MediConnectWidget() {
   };
 
   return (
-    <div className="w-full h-full bg-zinc-950 p-4 rounded-xl border border-zinc-800/80 flex flex-col justify-between dark:bg-zinc-950 light:bg-zinc-50 light:border-zinc-200">
-      <div className="flex items-center justify-between border-b border-zinc-800/50 pb-2 dark:border-zinc-800/50 light:border-zinc-200">
+    <div className="w-full h-full flex flex-col justify-between">
+      <div className="flex items-center justify-between border-b border-zinc-800/40 pb-2">
         <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="text-[10px] font-mono text-zinc-400">Dr. Emily Chen (MD)</span>
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          <span className="text-[10px] font-mono text-zinc-400 font-medium">Dr. Emily Chen (MD)</span>
         </div>
-        <span className="text-[9px] font-mono bg-indigo-500/10 text-indigo-400 px-2 py-0.5 rounded border border-indigo-500/20">
-          CONCURRENCY LOCK
+        <span className="text-[9px] font-mono bg-indigo-500/10 text-indigo-400 px-2 py-0.5 rounded border border-indigo-500/20 font-medium">
+          REDIS LOCK
         </span>
       </div>
 
-      <div className="my-3">
-        <div className="text-[10px] text-zinc-500 mb-2 font-mono">// Select available slot:</div>
+      <div className="my-auto py-2">
         <div className="grid grid-cols-3 gap-2">
           {slots.map((slot) => (
             <button
@@ -43,10 +45,10 @@ function MediConnectWidget() {
                 e.stopPropagation();
                 handleSelectSlot(slot);
               }}
-              className={`px-2 py-1.5 rounded-lg text-[10px] font-semibold font-mono border transition-all cursor-pointer ${
+              className={`px-2 py-2 rounded-lg text-[10px] font-mono border transition-all duration-300 cursor-pointer ${
                 selectedSlot === slot
-                  ? 'bg-indigo-500 border-indigo-500 text-white shadow-lg shadow-indigo-500/20'
-                  : 'bg-zinc-900/50 border-zinc-800 text-zinc-400 hover:text-white dark:bg-zinc-900/50 dark:border-zinc-850 light:bg-white light:border-zinc-200 light:text-zinc-600'
+                  ? 'bg-indigo-500 border-indigo-500 text-white shadow-lg shadow-indigo-500/20 scale-[0.98]'
+                  : 'bg-zinc-900/40 border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700'
               }`}
             >
               {slot}
@@ -55,11 +57,11 @@ function MediConnectWidget() {
         </div>
       </div>
 
-      <div className="bg-zinc-900/50 dark:bg-zinc-900/50 light:bg-zinc-100 border border-zinc-900 dark:border-zinc-900 light:border-zinc-200 p-2 rounded-lg text-center">
-        <span className="text-[9px] font-mono text-indigo-400 font-semibold block uppercase tracking-wider mb-0.5">
+      <div className="bg-zinc-900/40 border border-zinc-800/60 p-2.5 rounded-lg text-center backdrop-blur-xs">
+        <span className="text-[8px] font-mono text-indigo-400 font-semibold block uppercase tracking-wider mb-0.5">
           Redis Mutex State
         </span>
-        <span className="text-[10px] font-mono text-zinc-300 block">
+        <span className="text-[10px] font-mono text-zinc-350 font-medium">
           {status}
         </span>
       </div>
@@ -71,7 +73,6 @@ function MediConnectWidget() {
 function FinFlowWidget() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-  // SVG coordinate values for line chart points
   const points = [
     { label: 'W1', value: 120, x: 20, y: 80 },
     { label: 'W2', value: 180, x: 60, y: 60 },
@@ -82,31 +83,45 @@ function FinFlowWidget() {
   ];
 
   return (
-    <div className="w-full h-full bg-zinc-950 p-4 rounded-xl border border-zinc-800/80 flex flex-col justify-between dark:bg-zinc-950 light:bg-zinc-50 light:border-zinc-200">
-      <div className="flex items-center justify-between border-b border-zinc-800/50 pb-2 dark:border-zinc-800/50 light:border-zinc-200">
+    <div className="w-full h-full flex flex-col justify-between">
+      <div className="flex items-center justify-between border-b border-zinc-800/40 pb-2">
         <div>
           <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-wider block">Total Balance</span>
-          <span className="text-xs font-bold text-white dark:text-white light:text-zinc-950 font-mono">$24,850.00</span>
+          <span className="text-sm font-bold text-white font-mono">$24,850.00</span>
         </div>
         <span className="text-[9px] font-mono bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/20 flex items-center gap-1 font-semibold">
-          <Sparkles size={8} />
+          <Sparkles size={8} className="animate-pulse" />
           +12.4%
         </span>
       </div>
 
-      {/* SVG Graph path */}
-      <div className="relative flex-1 flex items-center justify-center my-2">
+      <div className="relative flex-1 flex items-center justify-center my-1">
         <svg viewBox="0 0 240 100" className="w-full h-[65px] overflow-visible">
+          <defs>
+            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+            <linearGradient id="line-grad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#6366f1" />
+              <stop offset="50%" stopColor="#8b5cf6" />
+              <stop offset="100%" stopColor="#10b981" />
+            </linearGradient>
+            <linearGradient id="area-grad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.15" />
+              <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.0" />
+            </linearGradient>
+          </defs>
+
           {/* Grid lines */}
-          <line x1="0" y1="20" x2="240" y2="20" stroke="rgba(255,255,255,0.03)" strokeWidth="0.5" />
-          <line x1="0" y1="50" x2="240" y2="50" stroke="rgba(255,255,255,0.03)" strokeWidth="0.5" />
-          <line x1="0" y1="80" x2="240" y2="80" stroke="rgba(255,255,255,0.03)" strokeWidth="0.5" />
+          <line x1="0" y1="20" x2="240" y2="20" stroke="rgba(255,255,255,0.02)" strokeWidth="0.5" />
+          <line x1="0" y1="50" x2="240" y2="50" stroke="rgba(255,255,255,0.02)" strokeWidth="0.5" />
+          <line x1="0" y1="80" x2="240" y2="80" stroke="rgba(255,255,255,0.02)" strokeWidth="0.5" />
 
           {/* Area under curve */}
           <path
             d="M 20 100 L 20 80 L 60 60 L 100 70 L 140 30 L 180 45 L 220 15 L 220 100 Z"
             fill="url(#area-grad)"
-            className="transition-all duration-300"
           />
 
           {/* Smooth line path */}
@@ -117,6 +132,7 @@ function FinFlowWidget() {
             strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"
+            filter="url(#glow)"
           />
 
           {/* Hover points */}
@@ -127,27 +143,14 @@ function FinFlowWidget() {
                 cy={p.y}
                 r={hoveredIndex === idx ? "5" : "3.5"}
                 fill={hoveredIndex === idx ? "#10b981" : "#8b5cf6"}
-                stroke="white"
-                strokeWidth="1"
+                stroke="#18181b"
+                strokeWidth="1.5"
                 className="cursor-pointer transition-all duration-150"
                 onMouseEnter={() => setHoveredIndex(idx)}
                 onMouseLeave={() => setHoveredIndex(null)}
               />
             </g>
           ))}
-
-          {/* Gradients */}
-          <defs>
-            <linearGradient id="line-grad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stopColor="#6366f1" />
-              <stop offset="50%" stopColor="#8b5cf6" />
-              <stop offset="100%" stopColor="#10b981" />
-            </linearGradient>
-            <linearGradient id="area-grad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.2" />
-              <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.0" />
-            </linearGradient>
-          </defs>
         </svg>
 
         {/* Hover Point Value Overlay */}
@@ -158,7 +161,7 @@ function FinFlowWidget() {
                 initial={{ opacity: 0, scale: 0.8, y: 5 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.8, y: 5 }}
-                className="px-2 py-1 bg-zinc-900 border border-zinc-800 rounded shadow-md text-[9px] font-mono text-zinc-300 flex gap-1"
+                className="px-2 py-1 bg-zinc-900 border border-zinc-800 rounded-md shadow-lg text-[9px] font-mono text-zinc-300 flex gap-1 backdrop-blur-xs"
               >
                 <span>{points[hoveredIndex].label}:</span>
                 <span className="font-semibold text-emerald-400">${points[hoveredIndex].value}</span>
@@ -168,8 +171,8 @@ function FinFlowWidget() {
         </div>
       </div>
 
-      <span className="text-[8px] font-mono text-zinc-650 text-center tracking-wide block uppercase">
-        // Hover nodes to trace weekly deposit yields
+      <span className="text-[8px] font-mono text-zinc-550 text-center tracking-wide block uppercase">
+        // Hover nodes to trace weekly yields
       </span>
     </div>
   );
@@ -180,19 +183,18 @@ function DevSyncWidget() {
   const [column, setColumn] = useState<'todo' | 'done'>('todo');
 
   return (
-    <div className="w-full h-full bg-zinc-950 p-4 rounded-xl border border-zinc-800/80 flex flex-col justify-between dark:bg-zinc-950 light:bg-zinc-50 light:border-zinc-200">
-      <div className="flex items-center justify-between border-b border-zinc-800/50 pb-2 dark:border-zinc-800/50 light:border-zinc-200">
+    <div className="w-full h-full flex flex-col justify-between">
+      <div className="flex items-center justify-between border-b border-zinc-800/40 pb-2">
         <div className="flex items-center gap-1.5">
-          <Calendar size={11} className="text-zinc-500" />
-          <span className="text-[10px] font-mono text-zinc-400">Sprint Board Simulation</span>
+          <Calendar size={11} className="text-zinc-400" />
+          <span className="text-[10px] font-mono text-zinc-400 font-medium">Sprint Board Simulation</span>
         </div>
-        <span className="text-[9px] font-mono text-zinc-500">// Real-time Sync</span>
+        <span className="text-[8px] font-mono text-zinc-500 tracking-wider">REAL-TIME SYNC</span>
       </div>
 
-      {/* Columns */}
-      <div className="grid grid-cols-2 gap-3 my-2.5 flex-1">
+      <div className="grid grid-cols-2 gap-3 my-auto py-2 flex-1">
         {/* TO DO Column */}
-        <div className="bg-zinc-900/30 dark:bg-zinc-900/30 light:bg-zinc-100 border border-dashed border-zinc-850 dark:border-zinc-850 light:border-zinc-200 rounded-lg p-2 flex flex-col gap-1.5 min-h-[55px]">
+        <div className="bg-zinc-900/20 border border-dashed border-zinc-800/60 rounded-lg p-2 flex flex-col gap-1.5 min-h-[60px] justify-center">
           <span className="text-[8px] font-mono text-zinc-500 uppercase tracking-wider block font-semibold mb-1">
             To Do
           </span>
@@ -203,13 +205,13 @@ function DevSyncWidget() {
                 e.stopPropagation();
                 setColumn('done');
               }}
-              className="p-1.5 bg-zinc-900 border border-zinc-800 rounded-md shadow flex items-start gap-1 cursor-pointer hover:border-indigo-500/50 group"
+              className="p-1.5 bg-zinc-900/80 border border-zinc-800 rounded-md shadow-md flex items-start gap-1 cursor-pointer hover:border-indigo-500/50 group"
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
             >
-              <CheckSquare size={10} className="text-zinc-500 mt-0.5 group-hover:text-indigo-400" />
+              <CheckSquare size={10} className="text-zinc-500 mt-0.5 group-hover:text-indigo-400 animate-pulse" />
               <div className="leading-none">
                 <span className="text-[9px] font-medium text-zinc-300 block group-hover:text-white leading-tight">
-                  Integrate mass transit saga pattern
+                  Integrate mass transit saga
                 </span>
               </div>
             </motion.div>
@@ -217,7 +219,7 @@ function DevSyncWidget() {
         </div>
 
         {/* DONE Column */}
-        <div className="bg-zinc-900/30 dark:bg-zinc-900/30 light:bg-zinc-100 border border-dashed border-zinc-850 dark:border-zinc-850 light:border-zinc-200 rounded-lg p-2 flex flex-col gap-1.5 min-h-[55px]">
+        <div className="bg-zinc-900/20 border border-dashed border-zinc-800/60 rounded-lg p-2 flex flex-col gap-1.5 min-h-[60px] justify-center">
           <span className="text-[8px] font-mono text-zinc-500 uppercase tracking-wider block font-semibold mb-1">
             Done
           </span>
@@ -228,13 +230,13 @@ function DevSyncWidget() {
                 e.stopPropagation();
                 setColumn('todo');
               }}
-              className="p-1.5 bg-zinc-900 border border-indigo-500/30 bg-indigo-500/5 rounded-md shadow flex items-start gap-1 cursor-pointer hover:border-indigo-500/50 group"
+              className="p-1.5 bg-indigo-500/5 border border-indigo-500/30 rounded-md shadow-md flex items-start gap-1 cursor-pointer hover:border-indigo-500/50 group"
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
             >
               <CheckSquare size={10} className="text-indigo-400 mt-0.5" />
               <div className="leading-none">
-                <span className="text-[9px] font-medium text-indigo-300 block line-through leading-tight">
-                  Integrate mass transit saga pattern
+                <span className="text-[9px] font-medium text-indigo-300 block line-through leading-tight font-sans">
+                  Integrate mass transit saga
                 </span>
               </div>
             </motion.div>
@@ -242,8 +244,8 @@ function DevSyncWidget() {
         </div>
       </div>
 
-      <span className="text-[8px] font-mono text-zinc-650 text-center tracking-wide block uppercase">
-        // Click the task card to drag/move columns
+      <span className="text-[8px] font-mono text-zinc-550 text-center tracking-wide block uppercase">
+        // Click task card to shift columns
       </span>
     </div>
   );
@@ -259,7 +261,6 @@ export default function Projects() {
     return project.category === filter;
   });
 
-  // Render correct React Widget based on project ID
   const renderProjectWidget = (id: string) => {
     if (id === 'mediconnect') return <MediConnectWidget />;
     if (id === 'finflow') return <FinFlowWidget />;
@@ -310,7 +311,7 @@ export default function Projects() {
             className={`px-4.5 py-1.5 rounded-full text-xs font-semibold tracking-wide border transition-all duration-300 cursor-pointer ${
               filter === cat
                 ? 'bg-indigo-500 border-indigo-500 text-white shadow-lg shadow-indigo-500/15'
-                : 'bg-zinc-900/50 border-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-800 dark:bg-zinc-900/50 dark:border-zinc-800 dark:text-zinc-400 light:bg-zinc-100 light:border-zinc-250 light:text-zinc-650 light:hover:bg-zinc-200'
+                : 'bg-zinc-900/50 border-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-800 dark:bg-zinc-900/50 dark:border-zinc-800 dark:text-zinc-400 light:bg-zinc-100 light:border-zinc-250 light:text-zinc-655 light:hover:bg-zinc-200'
             }`}
           >
             {cat}
@@ -332,22 +333,23 @@ export default function Projects() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.4, delay: idx * 0.05 }}
-              className="glow-card glass-panel rounded-2xl flex flex-col h-full group"
+              className="glow-card glass-panel rounded-2xl flex flex-col h-full group overflow-hidden border border-zinc-800/50 hover:border-zinc-700/80 transition-all duration-300"
             >
-              {/* Interactive Widget Header (Replaces Static image) */}
-              <div className="relative overflow-hidden h-[200px] bg-zinc-950/80 border-b border-zinc-800 dark:border-zinc-800 light:border-zinc-150 p-4 flex items-center justify-center">
+              {/* Interactive Widget Header (Seamless blend, no double-borders) */}
+              <div className="relative overflow-hidden h-[200px] bg-zinc-950/40 p-5 flex items-center justify-center border-b border-zinc-800/50">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.04),transparent_60%)] pointer-events-none" />
                 {renderProjectWidget(project.id)}
                 
                 {/* Category Pill */}
-                <span className="absolute top-6 left-6 bg-zinc-900/90 border border-zinc-800/80 text-[8px] font-mono text-zinc-450 px-2 py-0.5 rounded-full dark:bg-zinc-900/90 dark:border-zinc-800/80 light:bg-white/90 light:border-zinc-200 light:text-zinc-600 pointer-events-none">
+                <span className="absolute top-6 left-6 bg-zinc-900/90 border border-zinc-800/85 text-[8px] font-mono text-zinc-400 px-2 py-0.5 rounded-full pointer-events-none">
                   {project.category}
                 </span>
 
                 {/* Open Modal overlay button */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black/40 backdrop-blur-xs transition-all duration-300 pointer-events-none group-hover:pointer-events-auto">
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black/45 backdrop-blur-xs transition-all duration-350 pointer-events-none group-hover:pointer-events-auto">
                   <button
                     onClick={() => setSelectedProject(project)}
-                    className="px-4.5 py-2.5 bg-zinc-900/95 border border-zinc-800 text-white rounded-full text-xs font-semibold flex items-center gap-1.5 shadow-xl cursor-pointer hover:bg-black"
+                    className="px-5 py-2.5 bg-zinc-900/95 border border-zinc-800 text-white rounded-full text-xs font-semibold flex items-center gap-1.5 shadow-xl cursor-pointer hover:bg-black transition-colors"
                   >
                     <Eye size={14} />
                     Deep Dive
@@ -362,7 +364,7 @@ export default function Projects() {
                   <h3 className="text-lg font-bold text-white dark:text-white light:text-zinc-950 mb-2 group-hover:text-indigo-400 transition-colors font-sans">
                     {project.title}
                   </h3>
-                  <p className="text-zinc-450 dark:text-zinc-400 light:text-zinc-650 text-xs leading-relaxed font-sans">
+                  <p className="text-zinc-400 dark:text-zinc-400 light:text-zinc-600 text-xs sm:text-sm leading-relaxed font-sans">
                     {project.description}
                   </p>
                 </div>
@@ -374,13 +376,13 @@ export default function Projects() {
                     {project.techStack.slice(0, 3).map((tech) => (
                       <span
                         key={tech}
-                        className="text-[10px] font-mono bg-zinc-900/60 dark:bg-zinc-900/60 light:bg-zinc-150 border border-zinc-800 dark:border-zinc-800 light:border-zinc-200 px-2.5 py-0.5 rounded text-zinc-450 dark:text-zinc-400 light:text-zinc-600"
+                        className="text-[10px] font-mono bg-zinc-900/40 dark:bg-zinc-900/40 light:bg-zinc-150 border border-zinc-800/80 dark:border-zinc-800/80 light:border-zinc-200 px-2.5 py-0.5 rounded text-zinc-400 dark:text-zinc-400 light:text-zinc-600"
                       >
                         {tech}
                       </span>
                     ))}
                     {project.techStack.length > 3 && (
-                      <span className="text-[10px] font-mono bg-zinc-900/60 dark:bg-zinc-900/60 light:bg-zinc-150 border border-zinc-800 px-2 py-0.5 rounded text-zinc-500">
+                      <span className="text-[10px] font-mono bg-zinc-900/40 dark:bg-zinc-900/40 light:bg-zinc-150 border border-zinc-800/80 px-2 py-0.5 rounded text-zinc-500">
                         +{project.techStack.length - 3} more
                       </span>
                     )}
@@ -390,7 +392,7 @@ export default function Projects() {
                   <div className="pt-4 border-t border-zinc-800/30 dark:border-zinc-800/30 light:border-zinc-150 flex items-center gap-3">
                     <button
                       onClick={() => setSelectedProject(project)}
-                      className="flex-1 inline-flex items-center justify-center gap-1 px-3 py-2 text-xs font-semibold bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white hover:bg-zinc-800 dark:bg-zinc-900 dark:border-zinc-800 light:bg-zinc-100 light:border-zinc-250 light:text-zinc-700 light:hover:bg-zinc-200 rounded-lg transition-colors cursor-pointer"
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2.5 text-xs font-semibold bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white hover:bg-zinc-800 hover:border-zinc-700 dark:bg-zinc-900 dark:border-zinc-800 light:bg-zinc-100 light:border-zinc-250 light:text-zinc-700 light:hover:bg-zinc-200 rounded-lg transition-all cursor-pointer"
                     >
                       View Details
                       <ArrowRight size={12} />
@@ -399,7 +401,7 @@ export default function Projects() {
                       href={project.github}
                       target="_blank"
                       rel="noreferrer"
-                      className="p-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white dark:bg-zinc-900 dark:border-zinc-800 light:bg-zinc-100 light:border-zinc-250 light:text-zinc-650 hover:bg-zinc-800 transition-colors"
+                      className="p-2.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white dark:bg-zinc-900 dark:border-zinc-800 light:bg-zinc-100 light:border-zinc-250 light:text-zinc-650 hover:bg-zinc-800 hover:border-zinc-700 transition-all"
                       aria-label="GitHub Repository"
                     >
                       <svg className="w-[15px] h-[15px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
@@ -493,7 +495,7 @@ export default function Projects() {
               href={selectedProject.demo}
               target="_blank"
               rel="noreferrer"
-              className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-white bg-indigo-500 hover:bg-indigo-650 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/10 cursor-pointer text-center"
+              className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-white bg-indigo-500 hover:bg-indigo-655 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/10 cursor-pointer text-center"
             >
               <ExternalLink size={15} />
               Launch Live Demo

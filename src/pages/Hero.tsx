@@ -66,13 +66,13 @@ export default function Hero() {
       {/* Background radial glow */}
       <div className="absolute top-[10%] left-1/2 -translate-x-1/2 w-[90%] max-w-[800px] h-[350px] bg-gradient-to-r from-indigo-500/20 via-purple-500/10 to-transparent blur-[120px] rounded-full pointer-events-none -z-10" />
 
-      {/* Floating tech badges */}
-      <div className="absolute inset-0 pointer-events-none z-0 hidden lg:block max-w-6xl mx-auto">
+      {/* Floating tech badges (positioned at safe outer viewport margins) */}
+      <div className="absolute inset-0 pointer-events-none z-0 hidden xl:block w-full max-w-7xl mx-auto px-6">
         {/* .NET Badge */}
         <motion.div
           animate={{ y: [0, -12, 0], rotate: [0, 5, 0] }}
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-[25%] left-[10%] px-3 py-2 glass-panel rounded-xl flex items-center gap-2 border border-zinc-800/80 shadow-lg"
+          className="absolute top-[20%] left-4 2xl:left-8 px-3.5 py-2 glass-panel rounded-xl flex items-center gap-2 border border-zinc-800/80 shadow-lg"
         >
           <span className="w-5 h-5 rounded-md bg-purple-600 flex items-center justify-center text-[10px] font-bold text-white">.NET</span>
           <span className="text-[11px] font-mono text-zinc-400">ASP.NET Core</span>
@@ -82,7 +82,7 @@ export default function Hero() {
         <motion.div
           animate={{ y: [0, 15, 0], rotate: [0, -5, 0] }}
           transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-          className="absolute top-[20%] right-[12%] px-3 py-2 glass-panel rounded-xl flex items-center gap-2 border border-zinc-800/80 shadow-lg"
+          className="absolute top-[20%] right-4 2xl:right-8 px-3.5 py-2 glass-panel rounded-xl flex items-center gap-2 border border-zinc-800/80 shadow-lg"
         >
           <svg className="w-5 h-5 animate-spin-slow text-sky-400" viewBox="-11.5 -10.23174 23 20.46348">
             <circle cx="0" cy="0" r="2.05" fill="currentColor"/>
@@ -99,7 +99,7 @@ export default function Hero() {
         <motion.div
           animate={{ y: [0, -10, 0] }}
           transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          className="absolute bottom-[30%] left-[8%] px-3 py-2 glass-panel rounded-xl flex items-center gap-2 border border-zinc-800/80 shadow-lg"
+          className="absolute bottom-[24%] left-4 2xl:left-8 px-3.5 py-2 glass-panel rounded-xl flex items-center gap-2 border border-zinc-800/80 shadow-lg"
         >
           <svg className="w-5 h-5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
@@ -111,7 +111,7 @@ export default function Hero() {
         <motion.div
           animate={{ y: [0, 12, 0], x: [0, 5, 0] }}
           transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-          className="absolute bottom-[35%] right-[10%] px-3 py-2 glass-panel rounded-xl flex items-center gap-2 border border-zinc-800/80 shadow-lg"
+          className="absolute bottom-[24%] right-4 2xl:right-8 px-3.5 py-2 glass-panel rounded-xl flex items-center gap-2 border border-zinc-800/80 shadow-lg"
         >
           <span className="w-5 h-5 rounded-md bg-indigo-600 flex items-center justify-center text-xs font-bold text-white">C#</span>
           <span className="text-[11px] font-mono text-zinc-400">SOLID Core</span>

@@ -3,8 +3,11 @@ import { useEffect, useRef, useState } from 'react';
 export default function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
+  const idleTimerRef = useRef<number | null>(null);
+
   const [isVisible, setIsVisible] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
     // Check if device supports fine pointer (mouse)
@@ -14,19 +17,27 @@ export default function CustomCursor() {
     }
 
     setIsVisible(true);
-    document.body.classList.add('custom-cursor-enabled');
 
     const handleMouseMove = (e: MouseEvent) => {
       const { clientX: x, clientY: y } = e;
+
+      setIsActive(true);
+
+      // Reset idle timer - fades out after 1.5s of inactivity
+      if (idleTimerRef.current) {
+        clearTimeout(idleTimerRef.current);
+      }
+      idleTimerRef.current = window.setTimeout(() => {
+        setIsActive(false);
+      }, 1500);
 
       // Update dot position instantly
       if (dotRef.current) {
         dotRef.current.style.transform = `translate3d(${x}px, ${y}px, 0)`;
       }
 
-      // Update ring position with dynamic transition
+      // Update ring position
       if (ringRef.current) {
-        // Use standard CSS transitions or animate ring position directly
         ringRef.current.style.transform = `translate3d(${x}px, ${y}px, 0)`;
       }
     };
@@ -45,20 +56,34 @@ export default function CustomCursor() {
       setIsHovered(!!isInteractive);
     };
 
+    const handleMouseLeave = () => {
+      setIsActive(false);
+    };
+
+    const handleMouseEnter = () => {
+      setIsActive(true);
+    };
+
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseover', handleMouseOver);
+    document.addEventListener('mouseleave', handleMouseLeave);
+    document.addEventListener('mouseenter', handleMouseEnter);
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseover', handleMouseOver);
-      document.body.classList.remove('custom-cursor-enabled');
+      document.removeEventListener('mouseleave', handleMouseLeave);
+      document.removeEventListener('mouseenter', handleMouseEnter);
+      if (idleTimerRef.current) {
+        clearTimeout(idleTimerRef.current);
+      }
     };
   }, []);
 
   if (!isVisible) return null;
 
   return (
-    <>
+    <div className={`transition-opacity duration-300 pointer-events-none ${isActive ? 'opacity-100' : 'opacity-0'}`}>
       {/* Inner Dot */}
       <div
         ref={dotRef}
@@ -68,13 +93,13 @@ export default function CustomCursor() {
       {/* Outer Ring */}
       <div
         ref={ringRef}
-        className={`fixed top-0 left-0 rounded-full border border-indigo-500/50 pointer-events-none z-[9998] -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ease-out ${
+        className={`fixed top-0 left-0 rounded-full border border-indigo-500/50 pointer-events-none z-[9998] -translate-x-1/2 -translate-y-1/2 transition-all duration-200 ease-out ${
           isHovered 
-            ? 'w-12 h-12 bg-indigo-500/10 border-indigo-400 scale-100' 
-            : 'w-6 h-6 scale-100'
+            ? 'w-10 h-10 bg-indigo-500/10 border-indigo-400 scale-100' 
+            : 'w-5 h-5 scale-100'
         }`}
         style={{ transform: 'translate3d(-100px, -100px, 0)' }}
       />
-    </>
+    </div>
   );
 }

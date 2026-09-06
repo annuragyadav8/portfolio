@@ -31,9 +31,13 @@ export default function Navbar({ activeSection }: NavbarProps) {
     if (initialTheme === 'light') {
       document.body.classList.add('light');
       document.body.classList.remove('dark');
+      document.documentElement.classList.add('light');
+      document.documentElement.classList.remove('dark');
     } else {
       document.body.classList.add('dark');
       document.body.classList.remove('light');
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
     }
   }, []);
 
@@ -58,9 +62,13 @@ export default function Navbar({ activeSection }: NavbarProps) {
     if (nextTheme === 'light') {
       document.body.classList.add('light');
       document.body.classList.remove('dark');
+      document.documentElement.classList.add('light');
+      document.documentElement.classList.remove('dark');
     } else {
       document.body.classList.add('dark');
       document.body.classList.remove('light');
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
     }
   };
 
@@ -82,7 +90,7 @@ export default function Navbar({ activeSection }: NavbarProps) {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'py-4 bg-zinc-950/80 dark:bg-zinc-950/70 light:bg-white/70 backdrop-blur-md border-b border-zinc-800/40 dark:border-zinc-800/40 light:border-zinc-200/40' 
+          ? 'py-4 bg-zinc-50/85 dark:bg-zinc-950/70 backdrop-blur-md border-b border-zinc-200/60 dark:border-zinc-800/40 shadow-xs' 
           : 'py-6 bg-transparent'
       }`}
     >
@@ -96,13 +104,13 @@ export default function Navbar({ activeSection }: NavbarProps) {
           <span className="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-white text-sm font-extrabold shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform duration-300">
             AY
           </span>
-          <span className="hidden sm:inline bg-clip-text text-transparent bg-gradient-to-r from-white to-zinc-400 dark:from-white dark:to-zinc-400 light:from-zinc-950 light:to-zinc-700">
+          <span className="hidden sm:inline font-extrabold tracking-wider text-zinc-900 dark:text-white transition-colors">
             ANURAG YADAV
           </span>
         </a>
 
         {/* Desktop Nav Links */}
-        <nav className="hidden md:flex items-center gap-1 bg-zinc-900/40 dark:bg-zinc-900/40 light:bg-zinc-200/40 border border-zinc-800/50 dark:border-zinc-800/50 light:border-zinc-300/50 rounded-full px-2 py-1.5 backdrop-blur-md">
+        <nav className="hidden md:flex items-center gap-1 bg-zinc-200/80 dark:bg-zinc-900/50 border border-zinc-300/80 dark:border-zinc-800/60 rounded-full px-2 py-1.5 backdrop-blur-md transition-colors shadow-xs">
           {navLinks.map((link) => {
             const isActive = activeSection === link.href.slice(1);
             return (
@@ -112,14 +120,14 @@ export default function Navbar({ activeSection }: NavbarProps) {
                 onClick={(e) => handleLinkClick(e, link.href)}
                 className={`relative px-4 py-1.5 text-xs font-medium tracking-wide transition-colors rounded-full ${
                   isActive
-                    ? 'text-white dark:text-white light:text-zinc-950 font-semibold'
-                    : 'text-zinc-400 dark:text-zinc-400 light:text-zinc-600 hover:text-white dark:hover:text-white light:hover:text-zinc-950'
+                    ? 'text-zinc-950 dark:text-white font-semibold'
+                    : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white'
                 }`}
               >
                 {isActive && (
                   <motion.div
                     layoutId="active-nav-indicator"
-                    className="absolute inset-0 bg-indigo-500/10 dark:bg-indigo-500/25 light:bg-indigo-500/15 rounded-full border border-indigo-500/30 -z-10"
+                    className="absolute inset-0 bg-white dark:bg-indigo-500/25 rounded-full border border-zinc-300/80 dark:border-indigo-500/30 shadow-xs -z-10"
                     transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                   />
                 )}
@@ -134,7 +142,7 @@ export default function Navbar({ activeSection }: NavbarProps) {
           {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
-            className="p-2.5 rounded-full bg-zinc-900/50 dark:bg-zinc-900/50 light:bg-zinc-200/60 border border-zinc-800/50 dark:border-zinc-800/50 light:border-zinc-300/60 hover:bg-zinc-800/50 dark:hover:bg-zinc-800/50 light:hover:bg-zinc-300/70 text-zinc-400 hover:text-white dark:text-zinc-400 dark:hover:text-white light:text-zinc-600 light:hover:text-zinc-950 transition-colors duration-300"
+            className="p-2.5 rounded-full bg-zinc-200/80 dark:bg-zinc-900/50 border border-zinc-300/80 dark:border-zinc-800/50 hover:bg-zinc-300/80 dark:hover:bg-zinc-800/50 text-zinc-700 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white transition-colors duration-300 shadow-xs cursor-pointer"
             aria-label="Toggle Theme"
           >
             {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}

@@ -94,7 +94,7 @@ export const projectsData: Project[] = [
     title: "Tailoring Management System (TailorPro)",
     category: "Full Stack",
     description: "A web-based system that simplifies daily operations for tailors, allowing shop owners to efficiently manage customer profiles, track orders, and handle billing.",
-    image: "mediconnect", // placeholder mapping for compatibility
+    image: "tailorpro",
     techStack: ["C#", "ASP.NET Core", "SQL Server", "Entity Framework Core", "HTML5", "CSS3", "JavaScript"],
     features: [
       "Consolidates customer information, employee details, and order tracking into a single unified dashboard.",
@@ -111,7 +111,7 @@ export const projectsData: Project[] = [
     title: "Employee Management System",
     category: "Backend",
     description: "An enterprise-grade employee dashboard implementing MVC architecture to manage staff profiles, SQL Server schemas, and secure database operations.",
-    image: "finflow",
+    image: "employeedashboard",
     techStack: ["C#", "ASP.NET Core MVC", "SQL Server", "Stored Procedures", "SOLID Principles", "OOP"],
     features: [
       "Implements strict Model-View-Controller (MVC) architecture to ensure scalability and ease of maintenance.",
@@ -128,7 +128,7 @@ export const projectsData: Project[] = [
     title: "Office PowerPoint Automation Add-in",
     category: "Software Tool",
     description: "A custom PowerPoint Add-in automating corporate branding, template injections, and chart generation workflows.",
-    image: "devsync",
+    image: "officeaddin",
     techStack: ["Office Add-ins", "Office.js", "C#", "JavaScript", "TypeScript", "HTML5", "CSS3"],
     features: [
       "One-click automated chart or diagram generation based on custom datasets.",
